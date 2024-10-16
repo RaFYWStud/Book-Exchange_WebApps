@@ -1,26 +1,36 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
 
 class BookController extends Controller
 {
+    public function index()
+    {
+        $books = Book::all();
+        return view('home', compact('books'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|string|max:255',
-            'description' => 'required|string',
+            'description' => 'required|string|max:1000',
             'whatsapp' => 'required|string|max:15',
         ]);
 
-        // Simpan gambar
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
+        $coverImagePath = $request->file('cover_image')->store('cover_images', 'public');
 
-        // Simpan data buku
-        // Contoh: Book::create([...]);
+        Book::create([
+            'cover_image' => '/storage/' . $coverImagePath,
+            'title' => $request->title,
+            'description' => $request->description,
+            'whatsapp' => $request->whatsapp,
+        ]);
 
-        return redirect()->route('offerbook')->with('success', 'Buku berhasil ditambahkan.');
+        return redirect()->route('home');
     }
 }
