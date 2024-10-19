@@ -27,11 +27,17 @@
                         <span class="text-red-500 text-sm">{{ $message }}</span>
                     @enderror
                 </div>
-                <div>
+                <div class="flex items-center justify-center space-x-4">
                     <button type="submit"
-                        class="inline-flex items-center px-4 py-2 shadow-md text-white bg-green-500 hover:bg-green-600 rounded-lg focus:outline-none focus:shadow-outline">
+                        class="inline-flex items-center px-12 py-2 shadow-md text-white bg-green-500 hover:bg-green-600 rounded-lg focus:outline-none focus:shadow-outline">
                         Login
                     </button>
+                </div>
+                <div>
+                    <p>
+                        Belum punya akun? <a href="{{ route('register.show') }}"
+                            class="text-green-500 hover:underline">Daftar</a>
+                    </p>
                 </div>
             </form>
         </main>

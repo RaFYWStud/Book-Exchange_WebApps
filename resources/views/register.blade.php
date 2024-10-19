@@ -1,7 +1,7 @@
 <x-header>
     <div class="flex justify-center items-center min-h-screen bg-gradient-to-r from-green-700 to-green-900 p-4">
         <main class="max-w-lg w-full bg-green-100 shadow-md rounded-lg p-8">
-            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Daftar</h1>
+            <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Registrasi</h1>
             <form action="{{ route('register.submit') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
@@ -45,11 +45,17 @@
                         class="shadow appearance-none border border-gray-300 rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         placeholder="Konfirmasi password">
                 </div>
-                <div>
+                <div class="flex items-center justify-center space-x-4">
                     <button type="submit"
-                        class="inline-flex items-center px-4 py-2 shadow-md text-white bg-green-500 hover:bg-green-600 rounded-lg focus:outline-none focus:shadow-outline">
+                        class="inline-flex items-center px-12 py-2 shadow-md text-white bg-green-500 hover:bg-green-600 rounded-lg focus:outline-none focus:shadow-outline">
                         Daftar
                     </button>
+                </div>
+                <div>
+                    <p>
+                        Sudah punya akun? <a href="{{ route('login.show') }}"
+                            class="text-green-500 hover:underline">Login</a>
+                    </p>
                 </div>
             </form>
         </main>

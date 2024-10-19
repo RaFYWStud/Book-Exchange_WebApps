@@ -52,4 +52,10 @@ class AuthController extends Controller
             'email' => 'Email or password is incorrect.',
         ])->withInput();
     }
+
+    function logout()
+    {
+        Auth::logout();
+        return redirect()->route('login.show');
+    }
 }

@@ -16,3 +16,5 @@ Route::post('/register/submit', [AuthController::class, 'submitRegister'])->name
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login.show');
 Route::post('/login/submit', [AuthController::class, 'submitLogin'])->name('login.submit');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
