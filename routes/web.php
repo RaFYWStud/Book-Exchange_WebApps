@@ -6,10 +6,16 @@ use App\Http\Controllers\BookController;
 
 Route::get('/', [BookController::class, 'index'])->name('home');
 
-Route::get('/offer-book', function () {
-    return view('OfferBook');
-})->name('offerbook')->middleware('auth');
-Route::post('/books', [BookController::class, 'store'])->name('books.store')->middleware('auth');
+Route::middleware('auth.custom')->group(function () {
+    Route::get('/offer-book', function () {
+        return view('OfferBook');
+    })->name('offerbook');
+    Route::post('/books', [BookController::class, 'store'])->name('books.store');
+    Route::get('/your-offer', [BookController::class, 'yourOffer'])->name('youroffer');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
+    Route::put('/books/{book}', [BookController::class, 'update'])->name('books.update');
+    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
+});
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');
 Route::post('/register/submit', [AuthController::class, 'submitRegister'])->name('register.submit');

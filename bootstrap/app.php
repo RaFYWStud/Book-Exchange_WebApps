@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'auth' => EnsureUserIsAuthenticated::class
+            'auth.custom' => EnsureUserIsAuthenticated::class
         ]);
     })
 
