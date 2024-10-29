@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -29,8 +30,15 @@ class BookController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'whatsapp' => $request->whatsapp,
+            'user_id' => Auth::id(),
         ]);
 
         return redirect()->route('home');
+    }
+
+    public function yourOffer()
+    {
+        $books = Book::where('user_id', Auth::id())->get();
+        return view('youroffer', compact('books'));
     }
 }
