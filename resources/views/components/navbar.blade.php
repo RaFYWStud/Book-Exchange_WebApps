@@ -18,6 +18,9 @@
                         <a href="{{ route('youroffer') }}"
                             class="{{ request()->is('your-offer') ? 'bg-green-700 text-white' : 'text-gray-300 hover:bg-green-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium"
                             aria-current="page">Buku Anda</a>
+                        <a href="{{ route('alloffers') }}"
+                            class="{{ request()->is('all-offers') ? 'bg-green-700 text-white' : 'text-gray-300 hover:bg-green-700 hover:text-white' }} rounded-md px-3 py-2 text-sm font-medium"
+                            aria-current="page">Riwayat Pertukaran</a>
                     </div>
                 </div>
             </div>
@@ -100,6 +103,9 @@
             <a href="{{ route('youroffer') }}"
                 class="{{ request()->is('your-offer') ? 'bg-green-700 text-white' : 'text-gray-300 hover:bg-green-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium">Buku
                 Anda</a>
+            <a href="{{ route('alloffers') }}"
+                class="{{ request()->is('all-offers') ? 'bg-green-700 text-white' : 'text-gray-300 hover:bg-green-700 hover:text-white' }} block rounded-md px-3 py-2 text-base font-medium">Riwayat
+                Pertukaran</a>
         </div>
         <div class="border-t border-green-700 pt-4 pb-3">
             <div class="space-y-1 px-2">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
@@ -36,24 +37,54 @@ class BookController extends Controller
         return redirect()->route('home');
     }
 
-    public function update(Request $request, Book $book)
+    public function storeOffer(Request $request, Book $book)
     {
         $request->validate([
+            'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'condition' => 'required|string|max:255',
+            'whatsapp' => 'required|string|max:15',
         ]);
 
-        $book->update($request->all());
+        $coverImagePath = $request->file('cover_image')->store('cover_images', 'public');
 
-        return redirect()->route('youroffer');
+        Offer::create([
+            'cover_image' => '/storage/' . $coverImagePath,
+            'title' => $request->title,
+            'author' => $request->author,
+            'condition' => $request->condition,
+            'whatsapp' => $request->whatsapp,
+            'book_id' => $book->id,
+            'user_id' => Auth::id(),
+        ]);
+
+        return redirect()->route('home');
     }
 
-    public function destroy(Book $book)
+    public function viewOffers(Book $book)
+    {
+        $offers = Offer::where('book_id', $book->id)->get();
+        return view('othersoffer', compact('book', 'offers'));
+    }
+
+    public function viewAllOffers()
+    {
+        $userId = Auth::id();
+        $books = Book::where('user_id', $userId)->with('offers.user')->get();
+        return view('othersoffer', compact('books'));
+    }
+
+    public function acceptOffer(Book $book, Offer $offer)
+    {
+        $offer->update(['status' => 'accepted']);
+        return redirect()->route('alloffers');
+    }
+
+    public function completeTransaction(Book $book, Offer $offer)
     {
         $book->delete();
-
-        return redirect()->route('youroffer');
+        return redirect()->route('home');
     }
 
     public function yourOffer()
