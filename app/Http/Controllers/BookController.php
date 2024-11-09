@@ -19,8 +19,8 @@ class BookController extends Controller
         $request->validate([
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|string|max:255',
-            'description' => 'required|string|max:1000',
-            'whatsapp' => 'required|string|max:15',
+            'author' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
         ]);
 
         $coverImagePath = $request->file('cover_image')->store('cover_images', 'public');
@@ -28,8 +28,8 @@ class BookController extends Controller
         Book::create([
             'cover_image' => '/storage/' . $coverImagePath,
             'title' => $request->title,
-            'description' => $request->description,
-            'whatsapp' => $request->whatsapp,
+            'author' => $request->author,
+            'condition' => $request->condition,
             'user_id' => Auth::id(),
         ]);
 

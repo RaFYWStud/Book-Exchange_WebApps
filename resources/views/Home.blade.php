@@ -5,7 +5,6 @@
                 <h1 class="text-3xl font-bold tracking-tight text-white">Read Cycle</h1>
             </div>
         </header>
-
         <main>
             <div class="px-4 py-6 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -14,7 +13,8 @@
                             <img class="w-full h-48 object-cover" src="{{ $book->cover_image }}" alt="Cover Buku">
                             <div class="p-4">
                                 <h2 class="text-xl font-bold text-green-700">{{ $book->title }}</h2>
-                                <p class="mt-2 text-green-600">{{ $book->description }}</p>
+                                <p class="mt-2 text-green-600">Penulis: {{ $book->author }}</p>
+                                <p class="mt-2 text-green-600">Kondisi: {{ $book->condition }}</p>
                             </div>
                         </div>
                     @endforeach

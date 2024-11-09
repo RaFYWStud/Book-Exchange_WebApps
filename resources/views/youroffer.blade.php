@@ -11,8 +11,8 @@
                     <img src="{{ $book->cover_image }}" alt="Cover" class="w-32 h-32 object-cover rounded-l-lg">
                     <div class="p-4 flex-1">
                         <h2 class="text-xl font-bold text-green-900">{{ $book->title }}</h2>
-                        <p class="mt-2 text-green-900">{{ $book->description }}</p>
-                        <p class="mt-2 text-green-900">WhatsApp: {{ $book->whatsapp }}</p>
+                        <p class="mt-2 text-green-900">Penulis: {{ $book->author }}</p>
+                        <p class="mt-2 text-green-900">Kondisi: {{ $book->condition }}</p>
                         <div class="mt-4 flex space-x-2">
                             <a href="{{ route('books.edit', $book) }}"
                                 class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
