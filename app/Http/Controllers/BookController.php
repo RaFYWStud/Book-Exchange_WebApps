@@ -36,6 +36,26 @@ class BookController extends Controller
         return redirect()->route('home');
     }
 
+    public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+        ]);
+
+        $book->update($request->all());
+
+        return redirect()->route('youroffer');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+
+        return redirect()->route('youroffer');
+    }
+
     public function yourOffer()
     {
         $books = Book::where('user_id', Auth::id())->get();
