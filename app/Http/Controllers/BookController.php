@@ -15,6 +15,15 @@ class BookController extends Controller
         return view('home', compact('books'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $books = Book::where('title', 'LIKE', "%{$query}%")
+            ->orWhere('author', 'LIKE', "%{$query}%")
+            ->get();
+        return view('home', compact('books'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -91,5 +100,33 @@ class BookController extends Controller
     {
         $books = Book::where('user_id', Auth::id())->get();
         return view('youroffer', compact('books'));
+    }
+
+    public function edit(Book $book)
+    {
+        return view('editbook', compact('book'));
+    }
+
+    public function update(Request $request, Book $book)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'condition' => 'required|string|max:255',
+        ]);
+
+        $book->update([
+            'title' => $request->title,
+            'author' => $request->author,
+            'condition' => $request->condition,
+        ]);
+
+        return redirect()->route('youroffer')->with('success', 'Book updated successfully.');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('youroffer')->with('success', 'Book deleted successfully.');
     }
 }

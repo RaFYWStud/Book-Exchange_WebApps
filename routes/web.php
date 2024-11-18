@@ -4,8 +4,10 @@
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', [BookController::class, 'index'])->name('home');
+Route::get('/search', [BookController::class, 'search'])->name('books.search');
 
 Route::middleware('auth.custom')->group(function () {
     Route::get('/offer-book', function () {
@@ -26,6 +28,9 @@ Route::middleware('auth.custom')->group(function () {
     Route::post('/books/{book}/offers/{offer}/complete', [BookController::class, 'completeTransaction'])->name('books.offers.complete');
 
     Route::get('/all-offers', [BookController::class, 'viewAllOffers'])->name('alloffers');
+
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
 
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register.show');

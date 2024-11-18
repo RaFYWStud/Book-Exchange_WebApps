@@ -3,8 +3,14 @@
 <x-layout title="Home">
     <div class="min-h-full bg-green-100">
         <header class="bg-green-500 shadow-md">
-            <div class="px-4 py-6 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
                 <h1 class="text-3xl font-bold tracking-tight text-white">Read Cycle</h1>
+                <form action="{{ route('books.search') }}" method="GET" class="flex">
+                    <input type="text" name="query" placeholder="Cari buku..."
+                        class="px-4 py-2 rounded-l-md border-0 focus:ring-0">
+                    <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600">Cari</button>
+                </form>
             </div>
         </header>
         <main>

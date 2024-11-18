@@ -27,7 +27,8 @@
                                     <div class="mt-4 flex space-x-2">
                                         @if ($offer->status == 'pending')
                                             <form action="{{ route('books.offers.accept', [$book, $offer]) }}"
-                                                method="POST" class="inline-block">
+                                                method="POST" class="inline-block"
+                                                onsubmit="return showAcceptAlert(event, '{{ $offer->whatsapp }}')">
                                                 @csrf
                                                 <button type="submit"
                                                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Terima</button>
@@ -50,4 +51,20 @@
             @endforeach
         </div>
     </div>
+
+    <script>
+        function showAcceptAlert(event, whatsapp) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Tawaran berhasil diterima!',
+                text: `Silahkan lanjutkan transaksi dengan menghubungi nomor ${whatsapp} di WhatsApp!`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
+                }
+            });
+        }
+    </script>
 </x-layout>
