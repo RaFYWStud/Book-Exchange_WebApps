@@ -80,12 +80,33 @@
 
     <script>
         function openOfferModal(book) {
-            document.getElementById('offer-book-form').action = '/books/' + book.id + '/offer';
+            const form = document.getElementById('offer-book-form');
+            form.action = '{{ route('books.offer.store', ':book') }}'.replace(':book', book.id);
             document.getElementById('offer-modal').classList.remove('hidden');
+
+            form.addEventListener('submit', handleFormSubmit);
         }
 
         function closeOfferModal() {
             document.getElementById('offer-modal').classList.add('hidden');
+            const form = document.getElementById('offer-book-form');
+            form.removeEventListener('submit', handleFormSubmit);
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const userName = event.target.dataset.userName;
+
+            Swal.fire({
+                title: 'Penawaran berhasil dikirim!',
+                text: `Penawaran berhasil dikirim ke pemilik buku. Tunggu konfirmasi dari pemilik buku melalui WhatsApp anda.`,
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
+                }
+            });
         }
     </script>
 </x-layout>

@@ -66,9 +66,10 @@ class BookController extends Controller
             'whatsapp' => $request->whatsapp,
             'book_id' => $book->id,
             'user_id' => Auth::id(),
+            'status' => 'pending',
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Offer submitted successfully.');
     }
 
     public function viewOffers(Book $book)
