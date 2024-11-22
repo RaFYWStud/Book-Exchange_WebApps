@@ -3,29 +3,38 @@
         <main>
             <div class="max-w-lg w-full bg-green-50 shadow-md rounded-lg p-8">
                 <h1 class="text-3xl font-bold mb-6 text-center text-green-700">Tambah Buku</h1>
-                <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+                <form id="offer-book-form" action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data"
+                    class="space-y-4">
                     @csrf
                     <div>
                         <label class="block text-green-700 text-sm font-bold mb-2" for="cover_image">
                             Gambar Buku
                         </label>
                         <input type="file" name="cover_image" id="cover_image"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline">
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                     </div>
                     <div>
                         <label class="block text-green-700 text-sm font-bold mb-2" for="title">
                             Judul Buku
                         </label>
                         <input type="text" name="title" id="title"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Masukkan judul buku">
+                    </div>
+                    <div>
+                        <label class="block text-green-700 text-sm font-bold mb-2" for="genre">
+                            Genre Buku
+                        </label>
+                        <input type="text" name="genre" id="genre"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Masukkan genre buku">
                     </div>
                     <div>
                         <label class="block text-green-700 text-sm font-bold mb-2" for="author">
                             Penulis Buku
                         </label>
                         <input type="text" name="author" id="author"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             placeholder="Masukkan nama penulis">
                     </div>
                     <div>
@@ -98,6 +107,38 @@
 
         document.getElementById('close-modal').addEventListener('click', function() {
             document.getElementById('condition-modal').classList.add('hidden');
+        });
+
+        document.getElementById('offer-book-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const form = event.target;
+            const coverImage = form.querySelector('#cover_image').value;
+            const title = form.querySelector('#title').value;
+            const genre = form.querySelector('#genre').value;
+            const author = form.querySelector('#author').value;
+            const condition = form.querySelector('#condition').value;
+
+            if (!coverImage || !title || !genre || !author || !condition) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Semua kolom harus diisi!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: 'Penawaran berhasil dibuat!',
+                text: 'Penawaran buku Anda akan ditampilkan di halaman home!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
         });
     </script>
 </x-layout>

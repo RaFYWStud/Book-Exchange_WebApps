@@ -20,6 +20,7 @@ class BookController extends Controller
         $query = $request->input('query');
         $books = Book::where('title', 'LIKE', "%{$query}%")
             ->orWhere('author', 'LIKE', "%{$query}%")
+            ->orWhere('genre', 'LIKE', "%{$query}%")
             ->get();
         return view('home', compact('books'));
     }
@@ -29,6 +30,7 @@ class BookController extends Controller
         $request->validate([
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'condition' => 'required|string|max:255',
         ]);
@@ -38,12 +40,13 @@ class BookController extends Controller
         Book::create([
             'cover_image' => '/storage/' . $coverImagePath,
             'title' => $request->title,
+            'genre' => $request->genre,
             'author' => $request->author,
             'condition' => $request->condition,
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('home');
+        return redirect()->route('home')->with('success', 'Buku berhasil ditambahkan.');
     }
 
     public function storeOffer(Request $request, Book $book)
@@ -51,6 +54,7 @@ class BookController extends Controller
         $request->validate([
             'cover_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title' => 'required|string|max:255',
+            'genre' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'condition' => 'required|string|max:255',
             'whatsapp' => 'required|string|max:15',
@@ -61,6 +65,7 @@ class BookController extends Controller
         Offer::create([
             'cover_image' => '/storage/' . $coverImagePath,
             'title' => $request->title,
+            'genre' => $request->genre,
             'author' => $request->author,
             'condition' => $request->condition,
             'whatsapp' => $request->whatsapp,

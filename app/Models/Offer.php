@@ -12,6 +12,7 @@ class Offer extends Model
     protected $fillable = [
         'cover_image',
         'title',
+        'genre',
         'author',
         'condition',
         'whatsapp',

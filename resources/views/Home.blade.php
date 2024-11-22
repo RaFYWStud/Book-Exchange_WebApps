@@ -6,7 +6,7 @@
             <div class="px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
                 <h1 class="text-3xl font-bold tracking-tight text-white">Read Cycle</h1>
                 <form action="{{ route('books.search') }}" method="GET" class="flex">
-                    <input type="text" name="query" placeholder="Cari buku..."
+                    <input type="text" name="query" placeholder="Cari buku... (Judul, Penulis, Genre)"
                         class="px-4 py-2 rounded-l-md border-0 focus:ring-0">
                     <button type="submit"
                         class="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600">Cari</button>
@@ -22,6 +22,7 @@
                             <div class="p-4">
                                 <h2 class="text-xl font-bold text-green-700">{{ $book->title }}</h2>
                                 <p class="mt-2 text-green-600">Penulis: {{ $book->author }}</p>
+                                <p class="mt-2 text-green-600">Genre : {{ $book->genre }}</p>
                                 <p class="mt-2 text-green-600">Kondisi: {{ $book->condition }}</p>
                                 <button onclick="openOfferModal({{ $book }})"
                                     class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tawar
@@ -48,15 +49,22 @@
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="offer-title">Judul Buku</label>
                         <input type="text" name="title" id="offer-title"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Masukkan judul buku">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="offer-genre">Genre Buku</label>
+                        <input type="text" name="genre" id="offer-genre"
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Masukkan genre buku">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="offer-author">Penulis
                             Buku</label>
                         <input type="text" name="author" id="offer-author"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Masukkan penulis buku">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="offer-condition">Kondisi
                             Buku</label>
                         <select name="condition" id="offer-condition"
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            <option value="" disabled selected>Pilih kondisi buku</option>
                             <option value="Sangat Baik">Sangat Baik</option>
                             <option value="Baik">Baik</option>
                             <option value="Buruk">Buruk</option>
@@ -65,7 +73,8 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="offer-whatsapp">Nomor
                             WhatsApp</label>
                         <input type="text" name="whatsapp" id="offer-whatsapp"
-                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            placeholder="Contoh : 62895706081111">
                     </div>
                     <div class="items-center px-4 py-3">
                         <button type="submit"
@@ -95,16 +104,33 @@
 
         function handleFormSubmit(event) {
             event.preventDefault();
-            const userName = event.target.dataset.userName;
+
+            const form = event.target;
+            const coverImage = form.querySelector('#offer-cover_image').value;
+            const title = form.querySelector('#offer-title').value;
+            const genre = form.querySelector('#offer-genre').value;
+            const author = form.querySelector('#offer-author').value;
+            const condition = form.querySelector('#offer-condition').value;
+            const whatsapp = form.querySelector('#offer-whatsapp').value;
+
+            if (!coverImage || !title || !genre || !author || !condition || !whatsapp) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Semua kolom harus diisi!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
 
             Swal.fire({
                 title: 'Penawaran berhasil dikirim!',
-                text: `Penawaran berhasil dikirim ke pemilik buku. Tunggu konfirmasi dari pemilik buku melalui WhatsApp anda.`,
+                text: 'Penawaran berhasil dikirim ke pemilik buku. Tunggu konfirmasi dari pemilik buku melalui WhatsApp anda.',
                 icon: 'success',
                 confirmButtonText: 'OK'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    event.target.submit();
+                    form.submit();
                 }
             });
         }
